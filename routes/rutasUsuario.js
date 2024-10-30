@@ -1,5 +1,5 @@
 var rutas = require("express").Router();
-var {mostrarUsuarios,nuevoUsu,borrarUsuario,buscarPorId,editUsu}= require("../bd/usuariosBD");
+var {mostrarUsuarios,nuevoUsu,borrarUsuario,buscarPorId,editUsu,buscarPorNombre}= require("../bd/usuariosBD");
 
 //USUARIOS
 rutas.get("/usus",async(req, res)=>{
@@ -33,6 +33,16 @@ rutas.put("/usus/editarUsuario/:id", async (req, res) => {
        success: usuarioEditado,
        message: usuarioEditado ? "Usuario actualizado correctamente" : "Error al actualizar el usuario"
    });
+});
+
+rutas.get("/usuarios/buscarPorNombre/:nombre", async (req, res) => {
+   const { nombre } = req.params;
+   const usuario = await buscarPorNombre(nombre);
+   if (usuario) {
+       res.json(usuario);
+   } else {
+       res.status(404).json({ mensaje: "Usuario no encontrado" });
+   }
 });
 
 module.exports=rutas;

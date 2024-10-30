@@ -80,10 +80,17 @@ async function borrarUsuario(id) {
     return usuarioBorrado;
 }
 
+async function buscarPorNombre(nombre) {
+    const usuarios = await usuariosBD.get(); // Obtener todos los usuarios
+    const usuarioEncontrado = usuarios.docs.find(doc => doc.data().nombre === nombre);
+    return usuarioEncontrado ? { id: usuarioEncontrado.id, ...usuarioEncontrado.data() } : null;
+}
+
 module.exports={
     mostrarUsuarios,
     nuevoUsu,
     borrarUsuario,
     buscarPorId,
-    editUsu
+    editUsu,
+    buscarPorNombre
 }

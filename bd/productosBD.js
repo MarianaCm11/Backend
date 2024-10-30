@@ -82,11 +82,17 @@ async function editProd(id, nuevosDatos) {
     }
     return productoEditado;
 }
+async function buscarPorNombre(nombre) {
+    const productos = await productosBD.get(); // Obtener todos los productos
+    const productoEncontrado = productos.docs.find(doc => doc.data().nombre === nombre);
+    return productoEncontrado ? { id: productoEncontrado.id, ...productoEncontrado.data() } : null;
+ }
 
 module.exports={
     mostrarProductos,
     nuevoProducto,
     borrarProducto,
     buscarPorIdP,
-    editProd
+    editProd,
+    buscarPorNombre
 }

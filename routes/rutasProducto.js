@@ -1,5 +1,5 @@
 var rutas = require("express").Router();
-var {mostrarProductos,nuevoProducto,borrarProducto,buscarPorIdP,editProd}= require("../bd/productosBD");
+var {mostrarProductos,nuevoProducto,borrarProducto,buscarPorIdP,editProd,buscarPorNombre}= require("../bd/productosBD");
 
 //PRODUCTO
 rutas.get("/productos",async(req, res)=>{
@@ -38,5 +38,14 @@ rutas.put("/productos/editarProducto/:id", async (req, res) => {
 
 
 
+rutas.get("/productos/buscarPorNombre/:nombre", async (req, res) => {
+   const { nombre } = req.params;
+   const producto = await buscarPorNombre(nombre);
+   if (producto) {
+       res.json(producto);
+   } else {
+       res.status(404).json({ mensaje: "Producto no encontrado" });
+   }
+});
 
 module.exports=rutas;
